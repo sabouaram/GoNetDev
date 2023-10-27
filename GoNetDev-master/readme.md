@@ -5,11 +5,6 @@ The compiled binary/executable should be run with administrative system privileg
 #
 Developer: Salim BOU ARAM.
 
-## Installation & Compiling
-
-
-
-
 ## Usage
 Ethernet Header
 ```go
