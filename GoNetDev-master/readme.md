@@ -7,11 +7,7 @@ Developer: Salim BOU ARAM.
 
 ## Installation & Compiling
 
-```bash
-go get -u  github.com/sabouaram/GoNetDev
-cd $GOPATH/src/github.com/sabouaram/GoNetDev/ && go build
-sudo ./main
-```
+
 
 
 ## Usage
