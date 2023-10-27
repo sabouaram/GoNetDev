@@ -1,7 +1,9 @@
 # GoNetDev
 
 GoNetDev is an Ethernet based Golang Dataplane Development module designed simple for Linux/Unix as well as Windows systems.
-The compiled binary/executable should be run with administrative system privileges on windows and sudo on unix/linux.
+====> The compiled binary/executable should be run with administrative system privileges on windows and sudo on unix/linux.
+=====> On windows winpcap and libcap should be installed 
+=====> On Linux libpcap should be installed
 #
 Developer: Salim BOU ARAM.
 
