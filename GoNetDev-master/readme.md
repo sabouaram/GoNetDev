@@ -104,7 +104,7 @@ func handleFrames(sendRecv SendRecv.SendRecvInterface) {
 		if s.Icmph != nil && s.Icmph.GetType() == Const_Fields.ICMP_Type_Echo {
 			s.Icmph.BuildICMPHeader(Const_Fields.ICMP_Type_Reply)
 			s.Iph.ReverseSrc()
-			_, err := sendRecv.SendFrame(s.FrameBytes()) // The interface name will be determined by the struct
+			_, err := sendRecv.SendFrame(s.FrameBytes())
 			if err != nil {
 				panic(err)
 			}
