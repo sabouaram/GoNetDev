@@ -1,6 +1,7 @@
 # GoNetDev
 
-GoNetDev is an Ethernet based Golang Dataplane Development module designed simple for Linux/Unix systems.
+GoNetDev is an Ethernet based Golang Dataplane Development module designed simple for Linux/Unix as well as Windows systems.
+The compiled binary/executable should be run with administrative system privileges on windows and sudo on unix/linux.
 #
 Developer: Salim BOU ARAM.
 
@@ -91,34 +92,42 @@ for _,v := range packets
 ## Basic Ingress/Egress Processing (working on QoS feature and queuing management )
 ```go
 package main
-import ("github.com/sabouaram/GoNetDev/Protocols/SendRecv")
-func main() {
-frame := Protocols.NewFrame()
-frame.Eth.BuildHeader("08:00:27:ff:23:22", "08:00:27:dd:c1:1f", Const_Fields.Type_IPV4)     
-frame.Iph.BuildIPV4Header("192.168.1.14", "192.168.1.11", Const_Fields.Type_ICMP)
-frame.Icmph.BuildICMPHeader(Const_Fields.ICMP_Type_Reply)
-frame_bytes := frame.FrameBytes()
 
-// Frames handling and data processing (example replying to an ICMP echo request)
-  chn := make(chan Protocols.Frame)
+import (
+	"github.com/sabouaram/GoNetDev/Protocols"
+	"github.com/sabouaram/GoNetDev/Protocols/Const_Fields"
+	"github.com/sabouaram/GoNetDev/Protocols/SendRecv"
+)
+
+func handleFrames(sendRecv SendRecv.SendRecvInterface) {
+	chn := make(chan Protocols.Frame)
 	go func() {
-		err := SendRecv.ReceiveFrame("enp0s3", 1024, chn)
+		err := sendRecv.ReceiveFrame(1024, chn)
 		if err != nil {
 			panic(err)
 		}
 	}()
 
 	for s := range chn {
-		// Example Replying an ICMP Echo request
+		// Example Replying to an ICMP Echo request
 		if s.Icmph != nil && s.Icmph.GetType() == Const_Fields.ICMP_Type_Echo {
 			s.Icmph.BuildICMPHeader(Const_Fields.ICMP_Type_Reply)
 			s.Iph.ReverseSrc()
-			_, err := SendRecv.SendFrame("enp0s3", s.FrameBytes())
+			_, err := sendRecv.SendFrame(s.FrameBytes()) // The interface name will be determined by the struct
 			if err != nil {
 				panic(err)
 			}
 		}
 	}
+}
+
+func main() {
+
+	sendRecv, err := SendRecv.NewSendRecvInterface()
+	if err != nil {
+		panic(err)
+	}
+	handleFrames(sendRecv)
 }
 
 ```
