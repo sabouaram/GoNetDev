@@ -13,6 +13,7 @@ import (
 
 func (u *UnixSendRecv) SendFrame(frame []byte) (int, error) {
 	fd, error := syscall.Socket(syscall.AF_PACKET, syscall.SOCK_RAW, 0x0300)
+
 	if error != nil {
 		syscall.Close(fd)
 		panic(error)
@@ -22,7 +23,12 @@ func (u *UnixSendRecv) SendFrame(frame []byte) (int, error) {
 		return 0, err
 	}
 	var haddr [8]byte
-	copy(haddr[0:7], interface_info.HardwareAddr[0:7])
+
+	if len(interface_info.HardwareAddr) >= 7 {
+		copy(haddr[0:7], interface_info.HardwareAddr[0:7])
+	} else {
+
+	}
 	addr := syscall.SockaddrLinklayer{
 		Protocol: syscall.ETH_P_IP,
 		Ifindex:  interface_info.Index,
