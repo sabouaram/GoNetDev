@@ -92,3 +92,4 @@ func (arp *ARP) ParseARP(arp_byte_slice []byte) {
 	arp.TargetMACaddress = arp_byte_slice[18:24]
 	arp.TargetIPaddress = arp_byte_slice[24:28]
 }
+
