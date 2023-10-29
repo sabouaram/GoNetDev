@@ -34,9 +34,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	//frame := Protocols.NewFrame()
-	//frame.Eth.BuildHeader("ff:ff:ff:ff:ff:ff", "08:00:27:dd:c1:1f", Const_Fields.Type_IPV4)
-	//frame.Iph.BuildIPV4Header("192.168.10.10", "192.158.2.2", Const_Fields.ICMP_Type_Echo)
-	//sendRecv.SendFrame(frame.FrameBytes())
-	handleFrames(sendRecv)
+	frame := Protocols.NewFrame()
+	frame.Eth.BuildHeader("ff:ff:ff:ff:ff:ff", "08:00:27:dd:c1:1f", Const_Fields.Type_ARP)
+	frame.Arph.BuildARPHeader(Const_Fields.Hardware_type_Ethernet, Const_Fields.Type_IPV4, "192.168.1.14", "192.168.1.222", "08:00:27:dd:c1:1f", "00:00:00:00:00:00", Const_Fields.ARP_Operation_request)
+	frame_bytes := frame.FrameBytes()
+	sendRecv.SendFrame(frame_bytes)
+
+	//handleFrames(sendRecv)
 }
