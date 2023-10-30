@@ -7,7 +7,7 @@ GoNetDev is an Ethernet based Golang Dataplane Development module designed simpl
 =====> On windows winpcap and libcap should be installed 
 =====> On Linux libpcap should be installed
 #
-Developer: Salim BOU ARAM.
+
 
 ## Usage
 Ethernet Header
